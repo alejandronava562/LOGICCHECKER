@@ -7,6 +7,10 @@ load_dotenv()
 API_KEY = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=API_KEY)
 
+# --- NAMES HERE --- #
+# Alejandro
+
+# ------------------ #
 
 user_prompt = "I like rats. I think rats are cool. I hate rats. Rats are amazing"
 
