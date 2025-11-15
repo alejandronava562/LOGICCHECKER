@@ -18,10 +18,11 @@ Given a raw text and a simple logic report, product a STRICT JSON only with this
     "questions": [
         {
             "id": "Q#",
-            "type": "mcq | true_false | short"
+            "type": "mcq | true_false | short" 
             
         }    
     ]
 }
     
 """
+# why are there 18 problems

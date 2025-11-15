@@ -70,7 +70,11 @@ response = client.chat.completions.create(
     ],
 )
 
-output = json.loads(response.choices[0].message.content)
+# Guard against None since message.content is typed as Optional[str].
+message_content = response.choices[0].message.content
+if message_content is None:
+    raise ValueError("OpenAI response did not contain message content.")
+output = json.loads(message_content)
 print(output)
 
-# rat = ["rat one", "rat two", "rat three", "rat four"]
+# rat = ["rat one", "rat two", "rat three", "rat four"] geet out mozzarella is better
