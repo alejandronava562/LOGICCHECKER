@@ -10,6 +10,7 @@ client = OpenAI(api_key=API_KEY)
 # --- NAMES HERE --- #
 # Alejandro
 #lasagnerman jack i signed back in :)
+# rat
 # ------------------ #
 
 user_prompt = "I like rats. I think rats are cool. I hate rats. Rats are amazing"
