@@ -14,6 +14,10 @@ client = OpenAI(api_key=API_KEY)
 # Julianna
 # ------------------ #
 
+# --- App Ideas HERE --- #
+
+# ------------------ #
+
 user_prompt = "I like rats. I think rats are cool. I hate rats. Rats are amazing"
 
 system_prompt = """

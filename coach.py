@@ -21,7 +21,7 @@ Given a raw text and a simple logic report, product a STRICT JSON only with this
             "type": "mcq | true_false | short",
             "question": "string",
             "answer": "A | B | C | D | true | false | short_text",
-            "category" : "Topic shift | Outlying responses |  |"
+            "category" : "Topic shift | Outlying responses | Repeating topics | "
         }    
     ]
 }    
