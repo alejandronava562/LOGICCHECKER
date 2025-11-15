@@ -20,18 +20,16 @@ Given a raw text and a simple logic report, product a STRICT JSON only with this
             "id": "Q#",
             "type": "mcq | true_false | short",
             "question": "string",
-            
+            "answer": "A | B | C | D | true | false | short_text",
+            "category" : "Topic shift | Outlying responses |  |"
         }    
     ]
-}
-    
+}    
+
 """
-# 
-
-
-
-
-
-#
-
-#egg egg the egg the egg is egging
+# \|/  _____________________________________
+#  0  /=====================================
+#  |<(======================================     ________________|
+#  |  \=====================================     |          |    |
+# / \  _____________________________________     |__________|    |
+#egg egg the egg the egg is egging                           \___|
