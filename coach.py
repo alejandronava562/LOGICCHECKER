@@ -2,7 +2,7 @@ import json
 import os
 from openai import OpenAI
 from pathlib import Path
-
+#it said there is no import called open ai
 COACH_PROMPT = """
 You are a patient writing coach for the user. You will create learning material that teaches:
     - how to check claims against evidence
@@ -18,11 +18,20 @@ Given a raw text and a simple logic report, product a STRICT JSON only with this
     "questions": [
         {
             "id": "Q#",
-            "type": "mcq | true_false | short" 
+            "type": "mcq | true_false | short",
+            "question": "string",
             
         }    
     ]
 }
     
 """
-# why are there 18 problems
+# 
+
+
+
+
+
+#
+
+#egg egg the egg the egg is egging
