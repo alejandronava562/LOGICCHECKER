@@ -2,14 +2,15 @@ from openai import OpenAI
 import json
 import os
 from dotenv import load_dotenv
+
 load_dotenv()
-#yippie :)
+# yippie :)
 API_KEY = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=API_KEY)
 
 # --- NAMES HERE --- #
 # Alejandro
-#lasagnerman jack i signed back in :)
+# lasagnerman jack i signed back in :)
 # rat
 # Julianna
 # ------------------ #
