@@ -117,6 +117,12 @@ def run_quiz(questions: list[dict]):
     results = []
     print("\n --- Starting Quiz --- \n")
     for question in questions:
+        qnum = question.get("id", "")
+        qtype = question.get("type", "mcq")
+        qtext = question.get("question")
+        correct_answer = question.get("answer")
+        
+        print(f"{qnum}. {qtext}")
 
 def main():
     q = focus()
@@ -127,7 +133,7 @@ def main():
         user_issue = input("> ").strip()
     quiz = generating_quiz(user_issue)
     questions = quiz.get("questions")
-    user_results = run_quiz(questions)
+    run_quiz(questions)
 
 if __name__ == "__main__":
     main()
