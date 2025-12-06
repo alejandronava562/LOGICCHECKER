@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logic Assistant</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .output {
+            margin-top: 20px;
+            white-space: pre-wrap;
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Logic Assistant</h1>
+    <form id="textForm">
+        <h3>Enter a Text for Analysis:</h3>
+        <textarea id="user_text" rows="6"></textarea><br>
+        <button type="submit">Analyze Text</button>
+    </form>
+
+    <div id="output" class="output"></div>
+
+    <hr>
+
+    <form id="quizForm">
+        <h3>Enter Issue for Quiz:</h3>
+        <input type="text" id="user_issue" placeholder="e.g., spotting contradictions"><br>
+        <button type="submit">Generate Quiz</button>
+    </form>
+
+    <div id="quizOutput" class="output"></div>
+
+    <script>
+        // Handle form submission for text analysis
+        document.getElementById('textForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const userText = document.getElementById('user_text').value;
+
+            const response = await fetch('/analyze_text', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `user_text=${encodeURIComponent(userText)}`
+            });
+            const data = await response.json();
+
+            document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+        });
+
+        // Handle form submission for quiz generation
+        document.getElementById('quizForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const userIssue = document.getElementById('user_issue').value;
+
+            const response = await fetch('/generate_quiz', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `user_issue=${encodeURIComponent(userIssue)}`
+            });
+            const data = await response.json();
+
+            document.getElementById('quizOutput').textContent = JSON.stringify(data, null, 2);
+        });
+    </script>
+</body>
+</html>
