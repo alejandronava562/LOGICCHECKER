@@ -1,93 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Logic Assistant</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .output {
-            margin-top: 20px;
-            white-space: pre-wrap;
-            background-color: #f0f0f0;
-            padding: 15px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
 </head>
 <body>
-    <h1>Logic Assistant</h1>
-    <form id="textForm">
-        <h3>Enter a Text for Analysis:</h3>
-        <textarea id="user_text" rows="6"></textarea><br>
-        <button type="submit">Analyze Text</button>
-    </form>
+    <div class="page">
+        <header class="site-header">
+            <div class="container">
+                <div class="brand">
+                    <div class="brand-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" role="img" aria-label="Brain icon">
+                            <path d="M9 3a4 4 0 0 0-4 4v1a3 3 0 0 0 0 6v1a4 4 0 0 0 7.5 2h1A3.5 3.5 0 0 0 19 14.5V14a3 3 0 0 0 0-6V7a4 4 0 0 0-4-4H9Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1>Logic Assistant</h1>
+                        <p class="muted hide-sm">Analyze text and practice logical reasoning</p>
+                    </div>
+                </div>
+            </div>
+        </header>
 
-    <div id="output" class="output"></div>
+        <main class="container">
+            <div class="tabs" role="tablist" aria-label="Mode switcher">
+                <button class="tab active" data-tab="text-analysis" role="tab" aria-selected="true">Text Analysis</button>
+                <button class="tab" data-tab="quiz-mode" role="tab" aria-selected="false">Quiz Mode</button>
+            </div>
 
-    <hr>
+            <section id="text-analysis" class="tab-panel active" role="tabpanel">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Paste text to analyze</h2>
+                    </div>
+                    <div class="card-body">
+                        <label class="field-label" for="analysisText">Enter or paste text</label>
+                        <textarea id="analysisText" rows="8" placeholder="Enter or paste the text you want to analyze for contradictions, topic shifts, and repetition..."></textarea>
+                        <div id="analysisError" class="alert alert-destructive hidden"></div>
+                        <div class="actions">
+                            <button id="analyzeBtn" class="btn btn-primary">Analyze</button>
+                            <button id="clearAnalysisBtn" class="btn btn-outline">Clear</button>
+                            <button id="pasteAnalysisBtn" class="btn btn-outline">Paste</button>
+                            <button id="sampleAnalysisBtn" class="btn btn-outline">Use Sample</button>
+                        </div>
+                    </div>
+                </div>
 
-    <form id="quizForm">
-        <h3>Enter Issue for Quiz:</h3>
-        <input type="text" id="user_issue" placeholder="e.g., spotting contradictions"><br>
-        <button type="submit">Generate Quiz</button>
-    </form>
+                <div id="analysisResults" class="stack hidden">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Summary</h3>
+                        </div>
+                        <div class="card-body">
+                            <p id="analysisSummary" class="muted"></p>
+                        </div>
+                    </div>
 
-    <div id="quizOutput" class="output"></div>
+                    <div class="card">
+                        <div class="card-header split">
+                            <h3>Contradictions</h3>
+                            <span id="contradictionCount" class="badge badge-secondary">0</span>
+                        </div>
+                        <div id="contradictionsList" class="card-body stack"></div>
+                    </div>
 
-    <script>
-        // Handle form submission for text analysis
-        document.getElementById('textForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const userText = document.getElementById('user_text').value;
+                    <div class="card">
+                        <div class="card-header split">
+                            <h3>Topic Shifts</h3>
+                            <span id="topicShiftCount" class="badge badge-secondary">0</span>
+                        </div>
+                        <div id="topicShiftList" class="card-body stack"></div>
+                    </div>
 
-            const response = await fetch('/analyze_text', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: `user_text=${encodeURIComponent(userText)}`
-            });
-            const data = await response.json();
+                    <div class="card">
+                        <div class="card-header split">
+                            <h3>Repeating Claims</h3>
+                            <span id="repeatingCount" class="badge badge-secondary">0</span>
+                        </div>
+                        <div id="repeatingList" class="card-body stack"></div>
+                    </div>
 
-            document.getElementById('output').textContent = JSON.stringify(data, null, 2);
-        });
+                    <div class="card">
+                        <div class="card-header split">
+                            <div class="inline">
+                                <span class="icon" aria-hidden="true">🗂️</span>
+                                <h3>Raw Data</h3>
+                            </div>
+                            <div class="inline">
+                                <button id="copyAnalysisJson" class="btn btn-outline btn-sm">Copy JSON</button>
+                                <button id="toggleAnalysisJson" class="btn btn-outline btn-sm">Show JSON</button>
+                            </div>
+                        </div>
+                        <div id="analysisJsonWrap" class="card-body hidden">
+                            <pre id="analysisJson" class="code-block"></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-        // Handle form submission for quiz generation
-        document.getElementById('quizForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const userIssue = document.getElementById('user_issue').value;
+            <section id="quiz-mode" class="tab-panel" role="tabpanel">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Generate a Practice Quiz</h2>
+                        <p class="muted">You'll get ~10 practice questions tailored to your needs</p>
+                    </div>
+                    <div class="card-body stack">
+                        <div class="field">
+                            <label class="field-label" for="issueSelect">What do you want help with? *</label>
+                            <select id="issueSelect">
+                                <option value="">Select an option...</option>
+                                <option value="Spotting contradictions">Spotting contradictions</option>
+                                <option value="Avoiding repetition">Avoiding repetition</option>
+                                <option value="Staying on topic">Staying on topic</option>
+                                <option value="Using evidence">Using evidence</option>
+                                <option value="Timeline/order of events">Timeline/order of events</option>
+                                <option value="Something else">Something else</option>
+                            </select>
+                        </div>
 
-            const response = await fetch('/generate_quiz', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: `user_issue=${encodeURIComponent(userIssue)}`
-            });
-            const data = await response.json();
+                        <div id="customIssueWrap" class="field hidden">
+                            <label class="field-label" for="customIssue">Describe your issue</label>
+                            <input id="customIssue" type="text" placeholder="What would you like to practice?" />
+                        </div>
 
-            document.getElementById('quizOutput').textContent = JSON.stringify(data, null, 2);
-        });
-    </script>
+                        <div id="quizError" class="alert alert-destructive hidden"></div>
+
+                        <button id="generateQuizBtn" class="btn btn-primary">Generate Quiz</button>
+                    </div>
+                </div>
+
+                <div id="quizResults" class="stack hidden">
+                    <div class="alert alert-primary">
+                        <div>
+                            <p class="alert-title">Summary for teacher</p>
+                            <p id="teacherSummary"></p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body split align-start">
+                            <div>
+                                <h3>Ready to practice?</h3>
+                                <p class="muted">Test your knowledge with <span id="questionCount">0</span> interactive questions</p>
+                            </div>
+                            <button id="startPracticeBtn" class="btn btn-primary">Start Quiz</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>All Questions (<span id="questionCountHeader">0</span>)</h3>
+                        </div>
+                        <div id="questionList" class="card-body stack"></div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header split">
+                            <div class="inline">
+                                <span class="icon" aria-hidden="true">🧾</span>
+                                <h3>Export Quiz</h3>
+                            </div>
+                            <div class="inline">
+                                <button id="copyQuizJson" class="btn btn-outline btn-sm">Copy JSON</button>
+                                <button id="toggleQuizJson" class="btn btn-outline btn-sm">Show JSON</button>
+                            </div>
+                        </div>
+                        <div id="quizJsonWrap" class="card-body hidden">
+                            <pre id="quizJson" class="code-block"></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="practiceMode" class="stack hidden">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="split">
+                                <h3>Practice Mode</h3>
+                                <button id="exitPracticeBtn" class="btn btn-outline btn-sm">Exit Practice</button>
+                            </div>
+                            <div class="progress-meta">
+                                <span id="progressLabel" class="muted"></span>
+                                <span id="progressPercent" class="muted"></span>
+                            </div>
+                            <div class="progress-track">
+                                <div id="progressBar" class="progress-bar"></div>
+                            </div>
+                        </div>
+                        <div class="card-body stack" id="practiceBody"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <div class="container">
+                <p class="muted">
+                    Logic Assistant helps middle-school students and teachers identify logical issues and practice reasoning skills.
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
