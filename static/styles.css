@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-  --bg: #0d2e56;
-  --card: #8cb3d3;
+  --bg: #001c33;
+  --card: #305a7c;
   --text: #1a1a1a;
   --muted: #d9e9f3;
   --border: #e0e0e0;
-  --primary: #6298d6;
-  --primary-hover: #3d5b8b;
+  --primary: #19395e;
+  --primary-hover: #0a2249;
   --secondary: #8cb6dd;
   --secondary-text: #4074af;
   --danger: #6fcbec;
@@ -24,7 +24,7 @@
 
 body {
   margin: 0;
-  font-family: 'Spectral', Cour, monospace, sans-serif;
+  font-family: 'Antic Slab', Helvetica, sans-serif;
   background: var(--bg);
   color: var(--text);
 }
@@ -101,7 +101,7 @@ main {
 }
 
 .tabs {
-  background: rgba(145, 200, 255, 0.787);
+  background: rgb(76, 108, 142);
   border-radius: 12px;
   padding: 6px;
   display: grid;
@@ -122,7 +122,7 @@ main {
 }
 
 .tab.active {
-  background: rgb(192, 223, 255);
+  background: rgb(52, 87, 122);
   box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
 }
 
@@ -197,7 +197,7 @@ select {
   border-radius: 10px;
   font-size: 1rem;
   font-family: inherit;
-  background: #ffffff;
+  background: #9cc1dc;
 }
 
 textarea:focus,
@@ -211,6 +211,7 @@ select:focus {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+  padding-top: 5px;
 }
 
 .btn {
@@ -225,7 +226,7 @@ select:focus {
 
 .btn-primary {
   background: var(--primary);
-  color: #ffffff;
+  color: #e8f0ff;
 }
 
 .btn-primary:hover {
@@ -234,7 +235,7 @@ select:focus {
 
 .btn-outline {
   border-color: var(--border);
-  background: #ffffff;
+  background: #e8f0ff;
 }
 
 .btn-outline:hover {
@@ -270,7 +271,7 @@ select:focus {
 .badge-outline {
   border-color: var(--border);
   color: var(--muted);
-  background: #ffffff;
+  background: #e8f0ff;
 }
 
 .badge-default {
