@@ -1,22 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
+
 :root {
-  --bg: #001c33;
-  --card: #305a7c;
-  --text: #1a1a1a;
-  --muted: #d9e9f3;
-  --border: #e0e0e0;
-  --primary: #19395e;
-  --primary-hover: #0a2249;
-  --secondary: #8cb6dd;
-  --secondary-text: #4074af;
-  --danger: #6fcbec;
-  --danger-bg: #e8f3fc;
-  --warning: #4081d1;
-  --warning-bg: #97bfe5;
-  --shadow: 0 8px 20px rgba(63, 80, 121, 0.865);
-  --radius: 12px;
+  --bg: #0f2a44;
+  --card: #4f7fa8;
+  --text: #0b1f33;
+  --muted: #d6e6f2;
+  --border: #c7d8e6;
+
+  --primary: #1f4fd8;
+  --primary-hover: #163ca8;
+
+  --secondary: #9cc3e6;
+  --secondary-text: #2e5c8a;
+
+  --danger: #5ba8d9;
+  --danger-bg: #eaf4fb;
+
+  --warning: #4f83cc;
+  --warning-bg: #bcd6f2;
+
+  --shadow: 0 8px 20px rgba(15, 40, 80, 0.35);
 }
+  
+
 
 * {
   box-sizing: border-box;
@@ -270,7 +277,7 @@ select:focus {
 }
 
 .badge-secondary {
-  background: var(--secondary);
+  background: rgb(255, 255, 255);
   color: var(--secondary-text);
 }
 

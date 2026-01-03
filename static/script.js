@@ -1,5 +1,13 @@
 const tabs = document.querySelectorAll('.tab');
 const panels = document.querySelectorAll('.tab-panel');
+const state = {
+  analysisResults: null,
+  quizResult: null,
+  currentQuestion: 0,
+  selectedAnswer: "",
+  shortAnswer: false,
+  practiceActive: false,
+}
 // Text Analysis refs
 const analysisButton = document.getElementById('analyzeBtn');
 const analysisText = document.getElementById("analysisText");
@@ -25,6 +33,14 @@ if (clearAnalysisBtn) {
     if (toggleAnalysisJson) toggleAnalysisJson.textContent = 'Show JSON';
   });
 }
+
+if (sampleAnalysisBtn) {
+  sampleAnalysisBtn.addEventListener('click', () => {
+    if (analysisText) analysisText.value = "1+1=2. 1+1=3";
+    clearError(analysisError);
+  });
+}
+
 const analysisSummary = document.getElementById("analysisSummary");
 const contradictionsList = document.getElementById("contradictionsList");
 const contradictionCount = document.getElementById("contradictionCount");
@@ -568,7 +584,7 @@ const handleAnalyze = async () => {
 
     const data = await response.json();
     if (!response.ok) {
-      throw new Error(data.error || "Something went wrong�try again.");
+      throw new Error(data.error || "Something went wrong try again.");
     }
 
     state.analysisResult = data;
