@@ -1,48 +1,16 @@
-﻿const tabs = document.querySelectorAll('.tab');
+const tabs = document.querySelectorAll('.tab');
 const panels = document.querySelectorAll('.tab-panel');
-const issueSelect = document.getElementById('issueSelect');
-const customIssueWrap = document.getElementById('customIssueWrap');
-
 // Text Analysis refs
 const analysisButton = document.getElementById('analyzeBtn');
 const analysisText = document.getElementById("analysisText");
+const analyzeBtn = document.getElementById("analyzeBtn");
 const clearAnalysisBtn = document.getElementById('clearAnalysisBtn');
+const pasteAnalysisBtn = document.getElementById('pasteAnalysisBtn');
+const sampleAnalysisBtn = document.getElementById('sampleAnalysisBtn');
 const analysisResults = document.getElementById('analysisResults');
 const analysisError = document.getElementById('analysisError');
 const analysisJsonWrap = document.getElementById('analysisJsonWrap');
 const toggleAnalysisJson = document.getElementById('toggleAnalysisJson');
-
-// --- Tabs --- //
-const setTab = (tabName) => {
-  tabs.forEach((tab) => {
-    const active = tab.dataset.tab === tabName;
-    tab.classList.toggle('active', active);
-    tab.setAttribute('aria-selected', active ? 'true' : 'false');
-  });
-  panels.forEach((panel) => panel.classList.toggle('active', panel.id === tabName));
-};
-
-tabs.forEach((tab) => tab.addEventListener('click', () => setTab(tab.dataset.tab)));
-
-
-const renderAnalysisResult = (data) => {
-
-}
-
-const handleAnalyze = async() => {
-  if (!analysisText.value.trim()) {
-    // TODO : FIX ME return
-  }
-}
-
-
-// Quiz select toggle --- //
-if (issueSelect && customIssueWrap) {
-  issueSelect.addEventListener('change', () => {
-    const showCustom = issueSelect.value === 'Something else';
-    customIssueWrap.classList.toggle('hidden', !showCustom);
-  });
-}
 
 // Clear analysis action --- //
 if (clearAnalysisBtn) {
@@ -55,6 +23,8 @@ if (clearAnalysisBtn) {
     }
     if (analysisJsonWrap) analysisJsonWrap.classList.add('hidden');
     if (toggleAnalysisJson) toggleAnalysisJson.textContent = 'Show JSON';
+  });
+}
 const analysisSummary = document.getElementById("analysisSummary");
 const contradictionsList = document.getElementById("contradictionsList");
 const contradictionCount = document.getElementById("contradictionCount");
@@ -63,9 +33,7 @@ const topicShiftCount = document.getElementById("topicShiftCount");
 const repeatingList = document.getElementById("repeatingList");
 const repeatingCount = document.getElementById("repeatingCount");
 const analysisJson = document.getElementById("analysisJson");
-const analysisJsonWrap = document.getElementById("analysisJsonWrap");
 const copyAnalysisJson = document.getElementById("copyAnalysisJson");
-const toggleAnalysisJson = document.getElementById("toggleAnalysisJson");
 
 const issueSelect = document.getElementById("issueSelect");
 const customIssueWrap = document.getElementById("customIssueWrap");
@@ -652,7 +620,7 @@ const handleGenerateQuiz = async () => {
 
     const data = await response.json();
     if (!response.ok) {
-      throw new Error(data.error || "Something went wrong�try again.");
+      throw new Error(data.error || "Something went wrong try again.");
     }
 
     state.quizResult = normalizeQuizData(data);
