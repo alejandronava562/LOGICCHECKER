@@ -57,7 +57,6 @@ const customIssue = document.getElementById("customIssue");
 const generateQuizBtn = document.getElementById("generateQuizBtn");
 const quizError = document.getElementById("quizError");
 const quizResults = document.getElementById("quizResults");
-const teacherSummary = document.getElementById("teacherSummary");
 const questionCount = document.getElementById("questionCount");
 const questionCountHeader = document.getElementById("questionCountHeader");
 const questionList = document.getElementById("questionList");
@@ -504,6 +503,9 @@ const checkAnswer = (question, optionsWrap, feedbackWrap, inputArea) => {
 
   const options = optionsWrap.querySelectorAll(".practice-option");
   options.forEach((option) => {
+    option.classList.remove("correct", "incorect", "selected ");
+  })
+  options.forEach((option) => {
     const optionValue = normalizeAnswer(option.dataset.answer);
     if (optionValue === correctAnswer) {
       option.classList.add("correct");
@@ -652,7 +654,6 @@ const handleGenerateQuiz = async () => {
 const normalizeQuizData = (data) => {
   const questions = Array.isArray(data.questions) ? data.questions : [];
   return {
-    teacherSummary: data.summary_for_teacher || data.teacherSummary || "",
     questions: questions.map((question, index) => ({
       id: question.id || `Q${index + 1}`,
       question: question.question || "",
@@ -670,7 +671,6 @@ const normalizeQuizData = (data) => {
 const renderQuizResult = (data) => {
   quizResults.classList.remove("hidden");
   practiceMode.classList.add("hidden");
-  teacherSummary.textContent = data.teacherSummary || "";
   questionCount.textContent = data.questions.length;
   questionCountHeader.textContent = data.questions.length;
   renderQuestionList(data.questions);
