@@ -152,7 +152,7 @@ main {
 }
 
 .card-header {
-  padding: 20px 22px 0;
+  padding: 20px;
 }
 
 .card-body {
@@ -284,7 +284,7 @@ select:focus {
 .badge-outline {
   border-color: var(--border);
   color: var(--muted);
-  background: #e8f0ff;
+  background: #4f7fa8;
 }
 
 .badge-default {
