@@ -337,6 +337,26 @@ select {
   color: var(--warning);
 }
 
+.alert-success {
+  background: rgba(76, 175, 80, 0.25);
+  border: 2px solid #2e7d32;
+  color: #1b5e20;
+}
+
+.alert-success .alert-title {
+  color: #2e7d32;
+}
+
+.alert-error {
+  background: rgba(229, 57, 53, 0.2);
+  border: 2px solid #c62828;
+  color: #b71c1c;
+}
+
+.alert-error .alert-title {
+  color: #c62828;
+}
+
 .muted {
   color: var(--muted);
 }
@@ -458,13 +478,17 @@ select {
 }
 
 .practice-option.correct {
-  border-color: var(--primary);
-  background: rgba(76, 175, 80, 0.15);
+  border: 3px solid #2e7d32;
+  background: rgba(76, 175, 80, 0.35);
+  font-weight: 600;
+  color: #1b5e20;
 }
 
 .practice-option.incorrect {
-  border-color: var(--danger);
-  background: rgba(212, 24, 61, 0.12);
+  border: 3px solid #c62828;
+  background: rgba(229, 57, 53, 0.25);
+  font-weight: 600;
+  color: #b71c1c;
 }
 
 .progress-meta {

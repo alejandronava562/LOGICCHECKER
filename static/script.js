@@ -9,7 +9,6 @@ const state = {
   practiceActive: false,
 }
 // Text Analysis refs
-const analysisButton = document.getElementById('analyzeBtn');
 const analysisText = document.getElementById("analysisText");
 const analyzeBtn = document.getElementById("analyzeBtn");
 const clearAnalysisBtn = document.getElementById('clearAnalysisBtn');
@@ -503,8 +502,9 @@ const checkAnswer = (question, optionsWrap, feedbackWrap, inputArea) => {
 
   const options = optionsWrap.querySelectorAll(".practice-option");
   options.forEach((option) => {
-    option.classList.remove("correct", "incorect", "selected ");
-  })
+    option.classList.remove("correct", "incorrect", "selected");
+    option.disabled = true;
+  });
   options.forEach((option) => {
     const optionValue = normalizeAnswer(option.dataset.answer);
     if (optionValue === correctAnswer) {
@@ -515,14 +515,16 @@ const checkAnswer = (question, optionsWrap, feedbackWrap, inputArea) => {
     }
   });
 
+  const isCorrect = normalizeAnswer(state.selectedAnswer) === correctAnswer;
+
   const explanation = document.createElement("div");
-  explanation.className = "alert alert-primary";
+  explanation.className = isCorrect ? "alert alert-success" : "alert alert-error";
   const title = document.createElement("p");
   title.className = "alert-title";
   if (question.type === "short") {
     title.textContent = "Explanation";
   } else {
-    title.textContent = normalizeAnswer(state.selectedAnswer) === correctAnswer ? "Correct!" : "Incorrect";
+    title.textContent = isCorrect ? "Correct!" : "Incorrect";
   }
   const details = document.createElement("p");
   details.textContent = question.explain || question.explanation || "";
@@ -530,7 +532,13 @@ const checkAnswer = (question, optionsWrap, feedbackWrap, inputArea) => {
   explanation.appendChild(details);
   feedbackWrap.appendChild(explanation);
 
-  renderPracticeQuestion();
+  // Update button text without re-rendering
+  const actionBtn = practiceBody.querySelector(".actions .btn-primary");
+  if (actionBtn) {
+    actionBtn.textContent = state.currentQuestion < state.quizResult.questions.length - 1
+      ? "Next Question"
+      : "Finish Quiz";
+  }
 };
 
 const nextQuestion = () => {
@@ -684,10 +692,6 @@ tabs.forEach((tab) => {
 analyzeBtn.addEventListener("click", handleAnalyze);
 clearAnalysisBtn.addEventListener("click", resetAnalysis);
 pasteAnalysisBtn.addEventListener("click", handlePaste);
-sampleAnalysisBtn.addEventListener("click", () => {
-  analysisText.value = SAMPLE_TEXT;
-  clearError(analysisError);
-});
 
 copyAnalysisJson.addEventListener("click", () => {
   if (!state.analysisResult) return;
