@@ -14,6 +14,9 @@ app = Flask(__name__)
 API_KEY = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=API_KEY)
 
+
+# JSON - Dictionaries
+# key : value pairs
 # System prompts
 SYSTEM_PROMPT = """
 You are a helpful, friendly logic analyzing assistant. Given a raw conversation or text, do the following and return a STRICT JSON only.
